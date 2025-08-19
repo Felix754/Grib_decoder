@@ -3,27 +3,32 @@
 #include "grib_sections.hpp"
 using namespace std;
 
-// FIX: Delete output file before commiting
-// SUGGESTION: Make header for structures and functions
-
-int main()
+int main(int argc, char *argv[])
 {
     string file_name; //"20150310.00.W.dwa_griby.grib"
     string decoded_file_name;
 
     char buffer[4];
     GribData data;
+    if (argc == 3)
+    {
+        file_name = argv[1];
+        decoded_file_name = argv[2];
+    }
+    else
+    {
+        cout << "Invalid number of arguments(" << argc - 1 << " providet)" << ", switching to manual mode" << endl
+             << "Usage: GRIB_decoder <input.grib> <output.txt>" << endl
+             << endl
+             << "Provide the path to the file for decoding with file type: ";
 
-    cout << "Simple GRIB file decoder" << endl
-         << "Provide the path to the file for decoding with file type: ";
-    cin >> file_name;
+        cin >> file_name;
 
-    cout << endl
-         << "Provide the name of the decoded file: ";
+        cout << endl
+             << "Provide the name of the decoded file: ";
 
-    cin >> decoded_file_name;
-    decoded_file_name += ".txt";
-
+        cin >> decoded_file_name;
+    }
     ifstream file(file_name, ios::in | ios::binary);
 
     if (!file)
@@ -42,15 +47,8 @@ int main()
 
     fout << "File Opened: " << file_name << endl;
 
-    getSection0(file, fout, buffer, data); // Section 0
-    getSection1(file, fout, buffer, data); //  (PDS)
-    getSection2(file, fout, buffer, data); //  (GDS)
-    getSection3(file, fout, buffer, data); //  (BMS)
-    getSection4(file, fout, buffer, data); //  (BDS)
+    getSections(file, fout, buffer, data);
 
-    // GRIB message length check
-    LengthOfFileCheck(file, fout, buffer, data);
-    
     file.close();
     fout.close();
     return 0;
