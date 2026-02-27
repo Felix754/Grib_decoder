@@ -1,5 +1,8 @@
 # Grib Decoder C++
 
+![C++](https://img.shields.io/badge/C%2B%2B-17-blue)
+![Format](https://img.shields.io/badge/Format-GRIB-blueviolet)
+
 This repository was created as a working representation of a decoder based on bitwise shifting in C++.  
 It is also designed for future expansion due to the modularity of the code.  
 The decoder is based on the following documentation: [https://www.nco.ncep.noaa.gov/pmb/docs/on388/](https://www.nco.ncep.noaa.gov/pmb/docs/on388/)
